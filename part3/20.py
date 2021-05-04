@@ -1,8 +1,17 @@
 import json
+import gzip
 
-json_open = open('jawiki-country.json', 'r')
-json_load = json.load(json_open)
+path = 'jawiki-country.json.gz'
 
-for v in json_load.values():
-    if v['title'] == 'イギリス':
-        print(v['text'])
+new_data = {}
+
+with gzip.open(path, 'r') as f:
+    for line in f:
+        data = json.loads(line)
+        if data['title'] == 'イギリス':
+            new_data.update(data)
+
+j = json.dumps(new_data,ensure_ascii=False)
+
+with gzip.open('eu.json.gz', 'wt') as f:
+    f.write(j)

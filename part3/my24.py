@@ -9,7 +9,6 @@ with open(path, 'r') as f:
     for line in f:
         data += line
 
-
-pattern = r'^(.*\[\[Category:.*\]\].*)$'
+pattern = r'(http.*?)\s'
 result = '\n'.join(re.findall(pattern, data, re.MULTILINE))
 print(result)

@@ -1,15 +1,15 @@
 import json
-import gzip
 import re
 
-path = 'eu.json.gz'
+path = 'eu.json'
 
-with gzip.open(path, 'rt') as f:
+data= ''
+
+with open(path, 'r') as f:
     for line in f:
-        data = json.loads(line)
+        data += line
 
-for row in data['text'].splitlines():
-    row_data = row.replace("[", "").replace("]", "")
-    if re.match('Category', row_data):
-        print(''.join(re.findall('Category:(.*)', row_data)))
 
+pattern = r'^.*\[\[Category:(.*?)(?:\|.*)?\]\].*$'
+result = '\n'.join(re.findall(pattern, data, re.MULTILINE))
+print(result)

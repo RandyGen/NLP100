@@ -1,24 +1,15 @@
-# unsolved
-
 import json
-import gzip
 import re
 
-path = 'eu.json.gz'
+path = 'eu.json'
 
-with gzip.open(path, 'rt') as f:
+data= ''
+
+with open(path, 'r') as f:
     for line in f:
-        data = json.loads(line)
-
-for row in data['text'].splitlines():
-    if re.findall('^(\={2,})\s*(.+?)\s*(\={2,}).*$', row):
-        print(row)
-        name = ''.join(re.findall('^(\={2,})\s*(.+?)\s*(\={2,}).*$', row))
-        # name_revel = ''.join(re.findall(name + '(.+)', row))
-        print(f'{name}')
-
-        # name = ''.join(re.findall('(.+)={2,5}', name))
-        # # name_revel = ''.join(re.findall(name + '(.+)', row))
-        # print(f'{name}')
+        data += line
 
 
+pattern = r'^(\={2,})\s*(.+?)\s*(\={2,}).*$'
+result = '\n'.join(i[1] + ':' + str(len(i[0]) - 1) for i in re.findall(pattern, data, re.MULTILINE))
+print(result)

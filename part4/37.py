@@ -1,3 +1,4 @@
+import pprint
 import collections
 import matplotlib.pyplot as plt
 
@@ -12,7 +13,14 @@ with open(fpath, 'r') as f:
             if len(word) == 2 and word[0] != '':
                 l.append(word[0])
 
-c = collections.Counter(l)
+result = []
+for i in range(len(l)):
+    if l[i] == '猫':
+        result.append(l[i-1])
+        result.append(l[i+1])
+
+
+c = collections.Counter(result)
 l_k = []
 l_v = []
 for k, v in c.most_common(10):

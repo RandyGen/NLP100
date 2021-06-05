@@ -13,14 +13,13 @@ with open(fpath, 'r') as f:
                 l.append(word[0])
 
 c = collections.Counter(l)
-l_k = []
 l_v = []
-for k, v in c.most_common(10):
-    l_k.append(k)
+for k, v in c.most_common():
     l_v.append(v)
 
-plt.bar(l_k, l_v, align="center")
-plt.title("c.most_common(10)")
+# plt.figure(figsize=(8, 4))
+plt.hist(l_v, bins=100)
+plt.title("c.most_common()")
 plt.xlabel('word')
 plt.ylabel('frequency')
 plt.grid(True)

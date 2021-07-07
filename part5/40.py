@@ -1,11 +1,9 @@
-class Morth:
+class Morphs:
     def __init__(self, dc):
         self.surface = dc['surface']
         self.base = dc['base']
         self.pos = dc['pos']
         self.pos1 = dc['pos1']
-    def output(self):
-        print('surface: {}, base: {}, pos: {}, pos1: {}'.format(self.surface, self.base, self.pos, self.pos1))
 
 
 if __name__ == '__main__':
@@ -13,7 +11,6 @@ if __name__ == '__main__':
     fname = './ai.ja.text.parsed'
     with open(fname, 'r') as f:
         for line in f:
-            
             if line == 'EOS\n' or line[0] == '*' or line == '\n':
                 continue
             else:
@@ -26,6 +23,6 @@ if __name__ == '__main__':
                     'pos1': attr[1]
                 }
                 if c < 5:
-                    morths = Morth(line_dict)
-                    morths.output()
+                    morphs = Morphs(line_dict)
+                    print(vars(morphs))
                     c += 1

@@ -1,11 +1,11 @@
 class Morphs:
     def __init__(self, morphs):
-        (surface, attr) = morphs.split('\t', 1)
+        (surface, attr) = morphs.split('\t', 1) # 行を最初の\tで区切る
         attr = attr.split(',')
-        self.surface = surface
-        self.base = attr[5]
-        self.pos = attr[0]
-        self.pos1 = attr[1]
+        self.surface = surface # 表層形
+        self.base = attr[5]    # 基本形
+        self.pos = attr[0]     # 品詞
+        self.pos1 = attr[1]    # 品詞細分類
 
 
 class Chunk:
@@ -28,15 +28,23 @@ if __name__ == '__main__':
     sentences = []
     morphs = []
     chunks = []
-    fname = './ai.ja.text.parsed'
+    fname = '../data/src/ai.ja.text.parsed'
 
     with open(fname, 'r') as f:
+        # 一行ごと処理
         for line in f:
+            # 係り受け解析の行
             if line[0] == '*':
-                if len(morphs) > 0:
+                if morphs != []:
                     chunks.append(Chunk(morphs, dst))
                     morphs = []
-                dst = int(line.split(' ')[2].rsplit('D'))
+                dst = int(line.split()[2].rstrip('D'))
+
+            # 改行のみの行は無視
+            elif line == '\n':
+                continue
+
+            # 文末（EOS）の行
             elif line != 'EOS\n':
                 morphs.append(Morphs(line))
             else:
@@ -46,5 +54,6 @@ if __name__ == '__main__':
                 chunks = []
                 dst = None
 
+    # 出力
     for chunk in sentences[2].chunks:
         print([morph.surface for morph in chunk.morphs], chunk.dst, chunk.srcs)

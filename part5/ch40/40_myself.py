@@ -26,3 +26,5 @@ if __name__ == '__main__':
                     morphs = Morphs(line_dict)
                     print(vars(morphs))
                     c += 1
+                else:
+                    break
